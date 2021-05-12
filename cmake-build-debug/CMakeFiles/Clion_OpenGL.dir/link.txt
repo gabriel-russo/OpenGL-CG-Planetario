@@ -1,0 +1,1 @@
+/usr/bin/g++ -g CMakeFiles/Clion_OpenGL.dir/src/cpp/main.cpp.o CMakeFiles/Clion_OpenGL.dir/src/cpp/tgaload.cpp.o -o ../src/texture/Clion_OpenGL  -lglut -lGL -lGLU -lGLEW -lglfw 
