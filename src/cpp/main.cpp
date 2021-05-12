@@ -43,7 +43,7 @@
 #define TEX_ID_ANEL_SAT 9
 #define TEX_ID_URANO 10
 #define TEX_ID_NETUNO 11
-
+//#define TEX_ID_LACTEA 12
 
 //vetor com o numero das texturas
 GLuint texture_id[MAX_NO_TEXTURES];
