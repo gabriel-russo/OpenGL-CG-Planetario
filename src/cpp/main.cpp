@@ -19,7 +19,6 @@
 /// **********************************************************************
 
 //Bibliotecas
-
 #include <GL/glew.h>
 #include <GL/freeglut.h>
 #include <GL/glut.h>
@@ -29,7 +28,7 @@
 //-----------------------------
 
 //ID DAS TEXTURAS
-#define MAX_NO_TEXTURES 12
+#define MAX_NO_TEXTURES 13
 
 #define TEX_ID_SOL 0
 #define TEX_ID_MERCURIO 1
@@ -43,12 +42,24 @@
 #define TEX_ID_ANEL_SAT 9
 #define TEX_ID_URANO 10
 #define TEX_ID_NETUNO 11
-//#define TEX_ID_LACTEA 12
+#define TEX_ID_LACTEA 12
 
 //vetor com o numero das texturas
 GLuint texture_id[MAX_NO_TEXTURES];
+//-------------------------------
 
-GLfloat fAspect = 1;
+//propriedades das texturas
+GLfloat mat_difusa[] = {1.0, 1.0, 1.0, 1.0};
+GLfloat mat_especular[] = {1.0, 1.0, 1.0, 1.0};
+GLfloat mat_brilho[] = {50.0};
+//--------------------------------
+
+// Iluminacao --------------------
+GLfloat fonte_luz_solar[] = {0.0, 0.0, 0.0, 1.0};
+GLfloat posicao_luz0[] = {0.0, 10.0, 0.0, 1.0};  // posição luz
+GLfloat cor_luz0[] = {1.0, 1.0, 1.0, 1.0};  // componentes de luz para reflexão difusa e especular
+GLfloat cor_luz0_amb[] = {0.3, 0.3, 0.3, 1.0};  // componente de luz para reflexão ambiente
+//-------------------------
 
 // Variaveis matemáticas ---------------------
 int xrot;
@@ -61,28 +72,26 @@ int bot, rotX_ini, rotY_ini, x_ini, y_ini;
 float angleEarth = 0;
 float angleMoon = 0;
 float angleMars = 0;
+float rotationx = 0;
 //------------------------------------------------
 
 /* para a camera, lembrem-se dos exercicios anteriores */
 #define y_min 60
 #define ro_min 120
-float eyex = 0;
-float eyey = y_min;
-float eyez = ro_min;
+float eyex = 60;
+float eyey = 120;
+float eyez = 1;
 
 void initTexture() {
-    //Habilita o uso de textura
-    glEnable(GL_TEXTURE_2D);
-
     // Define a forma de armazenamento dos pixels na textura (1= alihamento por byte)
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
     //Define quantas texturas sera usado no programa
     // texture_id eh o vetor que guarda o ID das texturas
-    glGenTextures(12, texture_id);
+    glGenTextures(13, texture_id);
 
     //definindo o id das texturas (em ordem)
-
+    // texture_id[<nome do planeta>]  ==> define o numero da textura
     texture_id[TEX_ID_SOL] = 50;
     texture_id[TEX_ID_MERCURIO] = 100;
     texture_id[TEX_ID_VENUS] = 150;
@@ -95,46 +104,77 @@ void initTexture() {
     texture_id[TEX_ID_ANEL_SAT] = 500;
     texture_id[TEX_ID_URANO] = 550;
     texture_id[TEX_ID_NETUNO] = 600;
+    texture_id[TEX_ID_LACTEA] = 650;
 
-    // Define que tipo de textura sera usada
-    // GL_TEXTURE_2D ==> define que sera usada uma textura 2D (bitmaps)
-    // texture_id[<nome do planeta>]  ==> define o numero da textura
+
     image_t temp_image;
-    glBindTexture(GL_TEXTURE_2D,texture_id[TEX_ID_SOL]);
+
+    // TEXTURA DO SOL
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_SOL]);
     tgaLoad("sun.tga", &temp_image, TGA_FREE | TGA_LOW_QUALITY);
-    glBindTexture(GL_TEXTURE_2D,texture_id[TEX_ID_MERCURIO]);
+
+    //TEXTURA MERCURIO
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_MERCURIO]);
     tgaLoad("mercury.tga", &temp_image, TGA_FREE | TGA_LOW_QUALITY);
-    glBindTexture(GL_TEXTURE_2D,texture_id[TEX_ID_VENUS]);
+
+    //TEXTURA VENUS
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_VENUS]);
     tgaLoad("venus.tga", &temp_image, TGA_FREE | TGA_LOW_QUALITY);
-    glBindTexture(GL_TEXTURE_2D,texture_id[TEX_ID_TERRA]);
+
+    //TEXTURA TERRA
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_TERRA]);
     tgaLoad("terra.tga", &temp_image, TGA_FREE | TGA_LOW_QUALITY);
-    glBindTexture(GL_TEXTURE_2D,texture_id[TEX_ID_LUA]);
+
+    //TEXTURA LUA
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_LUA]);
     tgaLoad("moon.tga", &temp_image, TGA_FREE | TGA_LOW_QUALITY);
-    glBindTexture(GL_TEXTURE_2D,texture_id[TEX_ID_MARTE]);
+
+    //TEXTURA MARTE
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_MARTE]);
     tgaLoad("mars.tga", &temp_image, TGA_FREE | TGA_LOW_QUALITY);
-    glBindTexture(GL_TEXTURE_2D,texture_id[TEX_ID_JUPITER]);
+
+    //TEXTURA JUPITER
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_JUPITER]);
     tgaLoad("jupiter.tga", &temp_image, TGA_FREE | TGA_LOW_QUALITY);
-    glBindTexture(GL_TEXTURE_2D,texture_id[TEX_ID_EUROPA]);
+
+    //TEXTURA EUROPA (LUA DE JUPITER)
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_EUROPA]);
     tgaLoad("europa.tga", &temp_image, TGA_FREE | TGA_LOW_QUALITY);
-    glBindTexture(GL_TEXTURE_2D,texture_id[TEX_ID_SATURNO]);
+
+    //TEXTURA SATURNO
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_SATURNO]);
     tgaLoad("saturn.tga", &temp_image, TGA_FREE | TGA_LOW_QUALITY);
-    glBindTexture(GL_TEXTURE_2D,texture_id[TEX_ID_ANEL_SAT]);
+
+    //TEXTURA ANEL DE SATURNO
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_ANEL_SAT]);
     tgaLoad("saturn_ring.tga", &temp_image, TGA_FREE | TGA_LOW_QUALITY);
-    glBindTexture(GL_TEXTURE_2D,texture_id[TEX_ID_URANO]);
+
+    //TEXTURA URANO
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_URANO]);
     tgaLoad("uranus.tga", &temp_image, TGA_FREE | TGA_LOW_QUALITY);
-    glBindTexture(GL_TEXTURE_2D,texture_id[TEX_ID_NETUNO]);
+
+    //TEXTURA NETUNO
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_NETUNO]);
     tgaLoad("neptune.tga", &temp_image, TGA_FREE | TGA_LOW_QUALITY);
 
+    //TEXTURA DO BACKGROUND
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_LACTEA]);
+    tgaLoad("milky_way.tga", &temp_image, TGA_FREE | TGA_LOW_QUALITY);
+
+    //Habilita/gera o uso de textura nas esferas
+    glTexGeni(GL_S, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+    glTexGeni(GL_T, GL_TEXTURE_GEN_MODE, GL_SPHERE_MAP);
+    glEnable(GL_TEXTURE_GEN_S);
+    glEnable(GL_TEXTURE_GEN_T);
+    // GL_TEXTURE_2D ==> define que sera usada uma textura 2D (bitmaps)
+    glEnable(GL_TEXTURE_2D);
 }
 
 void init() {
     glShadeModel(GL_SMOOTH);
-    glClearColor(0.0f,0.0f,0.0f,0.5f);
     glEnable(GL_COLOR_MATERIAL);
-    glColorMaterial(GL_FRONT,GL_AMBIENT_AND_DIFFUSE);
-
+    glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
     glEnable(GL_CULL_FACE);
-
 }
 
 // **********************************************************************
@@ -157,13 +197,17 @@ void reshape(int w, int h) {
     // Set the viewport to be the entire window
     glViewport(0, 0, w, h);
 
-    // Set the clipping volume
-    gluPerspective(80, ratio, 1, 200);
+    /* GLU PERSPECTIVE INSTRUÇÕES
+     * gluPerspective (GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar);
+     * fovy : angulo de abertura da camera
+     * aspect: area de visualizacao em x
+     * zNear: Distancia do observador ao plano de corte frontal
+     * zfar: distancia do observador ao plano de corte traseiro
+     */
+    gluPerspective(40, ratio, 0.5, 500);
+
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    gluLookAt(0, 0, 30,
-              0, 0, 10,
-              0.0f, 1.0f, 0.0f);
 }
 
 /* Hierarquia de um planetário (Apenas o principal)
@@ -193,12 +237,205 @@ Sol
   Será criado e estabelecido essa relação e ordem planetária na funcao display()
  */
 
-void display() {
+void SkyBox() {
+    glBindTexture(GL_TEXTURE_CUBE_MAP, texture_id[TEX_ID_LACTEA]);
+    glBegin(GL_QUADS);
+    // Front Face
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(-1.0f, -1.0f, 1.0f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(1.0f, -1.0f, 1.0f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(1.0f, 1.0f, 1.0f);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(-1.0f, 1.0f, 1.0f);
+    // Back Face
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(-1.0f, -1.0f, -1.0f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(-1.0f, 1.0f, -1.0f);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(1.0f, 1.0f, -1.0f);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(1.0f, -1.0f, -1.0f);
+    // Top Face
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(-1.0f, 1.0f, -1.0f);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(-1.0f, 1.0f, 1.0f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(1.0f, 1.0f, 1.0f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(1.0f, 1.0f, -1.0f);
+    // Bottom Face
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(-1.0f, -1.0f, -1.0f);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(1.0f, -1.0f, -1.0f);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(1.0f, -1.0f, 1.0f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(-1.0f, -1.0f, 1.0f);
+    // Right face
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(1.0f, -1.0f, -1.0f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(1.0f, 1.0f, -1.0f);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(1.0f, 1.0f, 1.0f);
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(1.0f, -1.0f, 1.0f);
+    // Left Face
+    glTexCoord2f(0.0f, 0.0f);
+    glVertex3f(-1.0f, -1.0f, -1.0f);
+    glTexCoord2f(1.0f, 0.0f);
+    glVertex3f(-1.0f, -1.0f, 1.0f);
+    glTexCoord2f(1.0f, 1.0f);
+    glVertex3f(-1.0f, 1.0f, 1.0f);
+    glTexCoord2f(0.0f, 1.0f);
+    glVertex3f(-1.0f, 1.0f, -1.0f);
+    glEnd();
+}
 
+void drawSun() {
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_SOL]);
+    glutSolidSphere(12, 16, 16);
+}
+
+void drawMercury() {
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_MERCURIO]);
+    glutSolidSphere(4, 16, 16);
+}
+
+void drawEarth() {
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_TERRA]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+    glutSolidSphere(5, 16, 16);
+}
+
+void drawMoon() {
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_LUA]);
+    glutSolidSphere(1, 16, 16);
+}
+
+void display() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glLoadIdentity();
+
+    /*
+     * GLUT LOOK AT INSTRUÇÕES:
+     *  gluLookAt (GLdouble eyeX, GLdouble eyeY, GLdouble eyeZ, GLdouble centerX, GLdouble centerY, GLdouble centerZ,
+     *  GLdouble upX, GLdouble upY, GLdouble upZ);
+     *
+     * eye_: definir posicao da camera
+     * center_:ponto para onde observador esta olhando
+     * up_: coordenadas do vetor up (vetor que indica a "vertical" da camera)
+    */
+    gluLookAt(eyex, eyey, eyez, 0, 0, 0, 0, -1, 0);
+
+    glTranslatef(0.0, 0.0, -5.0);
+    glRotatef(xrot, 1.0, 0.0, 0.0);
+    glRotatef(yrot, 0.0, 1.0, 0.0);
+    glRotatef(zrot, 0.0, 0.0, 1.0);
+
+    glPushMatrix();
+        drawSun();
+        glPushMatrix();
+            glRotatef(angleEarth, 0, 1, 0);
+            glTranslatef(30, 0, 0);
+            drawEarth();
+            glPushMatrix();
+                glRotatef(angleMoon, 0, 1, 0);
+                glTranslatef(7, 0, 0);
+                drawMoon();
+            glPopMatrix();
+        glPopMatrix();
+    glPopMatrix();
+
+    glutSwapBuffers();
+
+    //Propriedades
+    glEnable(GL_DEPTH_TEST);   // teste de profundidade - habilita z-buffer
+    //glEnable(GL_LIGHTING);
+    glDepthMask(GL_TRUE);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 }
 
-int main(int argc, char **argv) {
+void GerenciaMouse(int button, int state, int x, int y) {
+    if (state == GLUT_DOWN) {
+        // Salva os par�metros atuais
+        x_ini = x;
+        y_ini = y;
+        rotX_ini = xrot;
+        rotY_ini = yrot;
+        bot = button;
+    } else bot = -1;
+}
 
+// Fun��o callback para eventos de movimento do mouse
+#define SENS_ROT    5.0
+#define SENS_OBS    15.0
+#define SENS_TRANSL    30.0
+
+void GerenciaMovim(int x, int y) {
+    // Bot�o esquerdo ?
+    if (bot == GLUT_LEFT_BUTTON) {
+        // Calcula diferen�as
+        int deltax = x_ini - x;
+        int deltay = y_ini - y;
+        // E modifica �ngulos
+        yrot = rotY_ini - deltax / SENS_ROT;
+        xrot = rotX_ini - deltay / SENS_ROT;
+    }
+    glutPostRedisplay();
+}
+
+
+void TimerFunction(int value) {
+
+    angleEarth += 3;
+    if (angleEarth >= 360) angleEarth = 0;
+
+    angleMoon += 6;
+    if (angleMoon >= 360) angleMoon = 0;
+
+    angleMars += 2;
+    if (angleMars >= 360) angleMars = 0;
+
+    rotationx += 10;
+    if (rotationx >= 360) rotationx = 0;
+
+    glutPostRedisplay();
+    glutTimerFunc(33, TimerFunction, 1);
+}
+
+int main(int argc, char **argv) {
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+    glutInitWindowPosition(0, 0);
+    glutInitWindowSize(900, 700);
+    glutCreateWindow("Sistema Planetario");
+
+    init();
+    initTexture();
+    TimerFunction(0);
+    glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
+
+    // Registra a fun��o callback para eventos de bot�es do mouse
+    glutMouseFunc(GerenciaMouse);
+
+    // Registra a fun��o callback para eventos de movimento do mouse
+    glutMotionFunc(GerenciaMovim);
+
+    // glutKeyboardFunc(keyboard);
+    // glutSpecialFunc(arrow_keys);
+    // 	glutIdleFunc ( display );
+    glutMainLoop();
 
 }

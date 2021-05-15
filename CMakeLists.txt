@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.19)
-project(Clion_OpenGL)
+project(Sistema_Solar)
 
 set(CMAKE_CXX_STANDARD 14)
 
@@ -13,8 +13,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/texture)
 
-add_executable(Clion_OpenGL ${SOURCE_FILES})
+add_executable(Sistema_Solar ${SOURCE_FILES})
 
 
-target_link_libraries(Clion_OpenGL -lglut -lGL -lGLU -lGLEW -lglfw)
+target_link_libraries(Sistema_Solar -lglut -lGL -lGLU -lGLEW -lglfw)
 

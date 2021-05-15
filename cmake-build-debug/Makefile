@@ -130,17 +130,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Clion_OpenGL
+# Target rules for targets named Sistema_Solar
 
 # Build rule for target.
-Clion_OpenGL: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Clion_OpenGL
-.PHONY : Clion_OpenGL
+Sistema_Solar: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Sistema_Solar
+.PHONY : Sistema_Solar
 
 # fast build rule for target.
-Clion_OpenGL/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Clion_OpenGL.dir/build.make CMakeFiles/Clion_OpenGL.dir/build
-.PHONY : Clion_OpenGL/fast
+Sistema_Solar/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Sistema_Solar.dir/build.make CMakeFiles/Sistema_Solar.dir/build
+.PHONY : Sistema_Solar/fast
 
 src/cpp/main.o: src/cpp/main.cpp.o
 
@@ -148,7 +148,7 @@ src/cpp/main.o: src/cpp/main.cpp.o
 
 # target to build an object file
 src/cpp/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Clion_OpenGL.dir/build.make CMakeFiles/Clion_OpenGL.dir/src/cpp/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Sistema_Solar.dir/build.make CMakeFiles/Sistema_Solar.dir/src/cpp/main.cpp.o
 .PHONY : src/cpp/main.cpp.o
 
 src/cpp/main.i: src/cpp/main.cpp.i
@@ -157,7 +157,7 @@ src/cpp/main.i: src/cpp/main.cpp.i
 
 # target to preprocess a source file
 src/cpp/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Clion_OpenGL.dir/build.make CMakeFiles/Clion_OpenGL.dir/src/cpp/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Sistema_Solar.dir/build.make CMakeFiles/Sistema_Solar.dir/src/cpp/main.cpp.i
 .PHONY : src/cpp/main.cpp.i
 
 src/cpp/main.s: src/cpp/main.cpp.s
@@ -166,7 +166,7 @@ src/cpp/main.s: src/cpp/main.cpp.s
 
 # target to generate assembly for a file
 src/cpp/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Clion_OpenGL.dir/build.make CMakeFiles/Clion_OpenGL.dir/src/cpp/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Sistema_Solar.dir/build.make CMakeFiles/Sistema_Solar.dir/src/cpp/main.cpp.s
 .PHONY : src/cpp/main.cpp.s
 
 src/cpp/tgaload.o: src/cpp/tgaload.cpp.o
@@ -175,7 +175,7 @@ src/cpp/tgaload.o: src/cpp/tgaload.cpp.o
 
 # target to build an object file
 src/cpp/tgaload.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Clion_OpenGL.dir/build.make CMakeFiles/Clion_OpenGL.dir/src/cpp/tgaload.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Sistema_Solar.dir/build.make CMakeFiles/Sistema_Solar.dir/src/cpp/tgaload.cpp.o
 .PHONY : src/cpp/tgaload.cpp.o
 
 src/cpp/tgaload.i: src/cpp/tgaload.cpp.i
@@ -184,7 +184,7 @@ src/cpp/tgaload.i: src/cpp/tgaload.cpp.i
 
 # target to preprocess a source file
 src/cpp/tgaload.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Clion_OpenGL.dir/build.make CMakeFiles/Clion_OpenGL.dir/src/cpp/tgaload.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Sistema_Solar.dir/build.make CMakeFiles/Sistema_Solar.dir/src/cpp/tgaload.cpp.i
 .PHONY : src/cpp/tgaload.cpp.i
 
 src/cpp/tgaload.s: src/cpp/tgaload.cpp.s
@@ -193,7 +193,7 @@ src/cpp/tgaload.s: src/cpp/tgaload.cpp.s
 
 # target to generate assembly for a file
 src/cpp/tgaload.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Clion_OpenGL.dir/build.make CMakeFiles/Clion_OpenGL.dir/src/cpp/tgaload.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Sistema_Solar.dir/build.make CMakeFiles/Sistema_Solar.dir/src/cpp/tgaload.cpp.s
 .PHONY : src/cpp/tgaload.cpp.s
 
 # Help Target
@@ -204,7 +204,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... Clion_OpenGL"
+	@echo "... Sistema_Solar"
 	@echo "... src/cpp/main.o"
 	@echo "... src/cpp/main.i"
 	@echo "... src/cpp/main.s"
