@@ -1,4 +1,4 @@
-# Install script for directory: /media/gabriel/HD/Documentos HD/UNIR/Computação Grafica/PRATICAS/Sistema_Solar
+# Install script for directory: /home/gabrielestagiario/Documentos/gihub/OpenGL-CG-Planetario
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/media/gabriel/HD/Documentos HD/UNIR/Computação Grafica/PRATICAS/Sistema_Solar/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/gabrielestagiario/Documentos/gihub/OpenGL-CG-Planetario/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -16,5 +16,5 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src/texture)
 add_executable(Sistema_Solar ${SOURCE_FILES})
 
 
-target_link_libraries(Sistema_Solar -lglut -lGL -lGLU -lGLEW -lglfw)
+target_link_libraries(Sistema_Solar -lglut -lGL -lGLU -lGLEW)
 

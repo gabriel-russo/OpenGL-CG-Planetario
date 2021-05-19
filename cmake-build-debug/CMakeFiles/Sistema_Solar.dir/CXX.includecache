@@ -8,7 +8,7 @@
 
 ../include/tgaload.h
 
-/media/gabriel/HD/Documentos HD/UNIR/Computação Grafica/PRATICAS/Sistema_Solar/src/cpp/main.cpp
+/home/gabrielestagiario/Documentos/gihub/OpenGL-CG-Planetario/src/cpp/main.cpp
 GL/glew.h
 -
 GL/freeglut.h
@@ -18,5 +18,5 @@ GL/glut.h
 cstdio
 -
 tgaload.h
-/media/gabriel/HD/Documentos HD/UNIR/Computação Grafica/PRATICAS/Sistema_Solar/src/cpp/tgaload.h
+/home/gabrielestagiario/Documentos/gihub/OpenGL-CG-Planetario/src/cpp/tgaload.h
 

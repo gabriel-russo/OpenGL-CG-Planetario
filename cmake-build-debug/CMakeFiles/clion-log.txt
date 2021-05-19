@@ -1,4 +1,4 @@
-/home/gabriel/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/211.7142.21/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ -G "CodeBlocks - Unix Makefiles" "/media/gabriel/HD/Documentos HD/UNIR/Computação Grafica/PRATICAS/Sistema_Solar"
+/home/gabrielestagiario/.local/share/JetBrains/Toolbox/apps/CLion/ch-0/211.7142.21/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/gabrielestagiario/Documentos/gihub/OpenGL-CG-Planetario
 -- Configuring done
 -- Generating done
--- Build files have been written to: /media/gabriel/HD/Documentos HD/UNIR/Computação Grafica/PRATICAS/Sistema_Solar/cmake-build-debug
+-- Build files have been written to: /home/gabrielestagiario/Documentos/gihub/OpenGL-CG-Planetario/cmake-build-debug

@@ -69,18 +69,24 @@ float ratio;
 int bot, rotX_ini, rotY_ini, x_ini, y_ini;
 
 /* angulos de rotacao para os corpos celestes */
+float angleMercury = 0;
+float angleVenus = 0;
 float angleEarth = 0;
 float angleMoon = 0;
 float angleMars = 0;
-float rotationx = 0;
+float angleJupiter = 0;
+float angleEuropa = 0;
+float angleSaturn = 0;
+float angleUranus = 0;
+float angleNeptune = 0;
 //------------------------------------------------
 
 /* para a camera, lembrem-se dos exercicios anteriores */
 #define y_min 60
 #define ro_min 120
-float eyex = 60;
-float eyey = 120;
-float eyez = 1;
+float eyex = 0;
+float eyey = y_min;
+float eyez = ro_min;
 
 void initTexture() {
     // Define a forma de armazenamento dos pixels na textura (1= alihamento por byte)
@@ -204,7 +210,7 @@ void reshape(int w, int h) {
      * zNear: Distancia do observador ao plano de corte frontal
      * zfar: distancia do observador ao plano de corte traseiro
      */
-    gluPerspective(40, ratio, 0.5, 500);
+    gluPerspective(60, ratio, 0.5, 500);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -304,7 +310,12 @@ void drawSun() {
 
 void drawMercury() {
     glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_MERCURIO]);
-    glutSolidSphere(4, 16, 16);
+    glutSolidSphere(1, 16, 16);
+}
+
+void drawVenus(){
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_VENUS]);
+    glutSolidSphere(3.3, 16, 16);
 }
 
 void drawEarth() {
@@ -314,13 +325,47 @@ void drawEarth() {
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
     glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-    glutSolidSphere(5, 16, 16);
+    glutSolidSphere(3, 16, 16);
 }
 
 void drawMoon() {
     glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_LUA]);
     glutSolidSphere(1, 16, 16);
 }
+
+void drawMars(){
+
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_MARTE]);
+    glutSolidSphere( 2, 16, 16 );
+
+}
+
+void drawJupiter(){
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_JUPITER]);
+    glutSolidSphere( 7, 16, 16 );
+}
+
+void drawEuropa(){
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_EUROPA]);
+    glutSolidSphere( 0.8, 16, 16 );
+
+}
+
+void drawSaturn(){
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_SATURNO]);
+    glutSolidSphere( 6, 16, 16 );
+}
+
+void drawUranus(){
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_URANO]);
+    glutSolidSphere( 4.5, 16, 16 );
+}
+
+void drawNeptune(){
+    glBindTexture(GL_TEXTURE_2D, texture_id[TEX_ID_NETUNO]);
+    glutSolidSphere( 4.1, 16, 16 );
+}
+
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -335,7 +380,7 @@ void display() {
      * center_:ponto para onde observador esta olhando
      * up_: coordenadas do vetor up (vetor que indica a "vertical" da camera)
     */
-    gluLookAt(eyex, eyey, eyez, 0, 0, 0, 0, -1, 0);
+    gluLookAt(eyex,eyey,eyez,0,0,0,0,1,0);
 
     glTranslatef(0.0, 0.0, -5.0);
     glRotatef(xrot, 1.0, 0.0, 0.0);
@@ -345,14 +390,54 @@ void display() {
     glPushMatrix();
         drawSun();
         glPushMatrix();
-            glRotatef(angleEarth, 0, 1, 0);
-            glTranslatef(30, 0, 0);
+            glRotatef( angleMercury, 0, 1, 0 );
+            glTranslatef( 18, 0, 0 );
+            drawMercury();
+        glPopMatrix();
+        glPushMatrix();
+            glRotatef( angleVenus, 0, 1, 0 );
+            glTranslatef( 30, 0, 0 );
+            drawVenus();
+        glPopMatrix();
+        glPushMatrix();
+            glRotatef( angleEarth, 0, 1, 0 );
+            glTranslatef( 50, 0, 0 );
             drawEarth();
             glPushMatrix();
-                glRotatef(angleMoon, 0, 1, 0);
-                glTranslatef(7, 0, 0);
+                glRotatef( angleMoon, 0, 1, 0 );
+                glTranslatef( 7, 0, 0 );
                 drawMoon();
             glPopMatrix();
+        glPopMatrix();
+        glPushMatrix();
+            glRotatef( angleMars, 0, 1, 0 );
+            glTranslatef( 70, 0, 0 );
+            drawMars();
+        glPopMatrix();
+        glPushMatrix();
+            glRotatef(angleJupiter,0,1,0);
+            glTranslatef(90,0,0);
+            drawJupiter();
+            glPushMatrix();
+                glRotatef(angleEuropa,0,1,0);
+                glTranslatef(14,0,0);
+                drawEuropa();
+            glPopMatrix();
+        glPopMatrix();
+        glPushMatrix();
+            glRotatef(angleSaturn,0,1,0);
+            glTranslatef(110,0,0);
+            drawSaturn();
+        glPopMatrix();
+        glPushMatrix();
+            glRotatef(angleUranus,0,1,0);
+            glTranslatef(130,0,0);
+            drawUranus();
+        glPopMatrix();
+        glPushMatrix();
+            glRotatef(angleNeptune,0,1,0);
+            glTranslatef(150,0,0);
+            drawNeptune();
         glPopMatrix();
     glPopMatrix();
 
@@ -397,18 +482,50 @@ void GerenciaMovim(int x, int y) {
 
 
 void TimerFunction(int value) {
+    /* Fonte : http://www.astronoo.com/pt/artigos/caracteristicas-dos-planetas.html
 
-    angleEarth += 3;
+     Objetos | 	Período de revolução (dias)	| Período de revolução (anos)
+
+    Mercúrio |	87.96934 | 0.241 anos
+    Vênus |	224.701	| 0.615 anos
+    Terra |	365.25696 |	1 anos
+    Marte |	686.9601 |	1,881 anos
+    Júpiter |	4 335.3545	| 11.862 anos
+    Saturno |	10 757.7365	| 29.452 anos
+    Urano |	30 799.095 |	84.323 anos
+    Netuno |	60 224.9036 |	164.882 anos
+     */
+
+
+    angleEarth += 1;
     if (angleEarth >= 360) angleEarth = 0;
 
-    angleMoon += 6;
+    angleMoon += 1.2;
     if (angleMoon >= 360) angleMoon = 0;
 
-    angleMars += 2;
+    angleMars += 0.9;
     if (angleMars >= 360) angleMars = 0;
 
-    rotationx += 10;
-    if (rotationx >= 360) rotationx = 0;
+    angleMercury += 2;
+    if (angleMercury >= 360) angleMercury = 0;
+
+    angleVenus += 1.7;
+    if (angleVenus >=360) angleVenus = 0;
+
+    angleJupiter += 0.3;
+    if (angleJupiter >= 360) angleJupiter =0;
+
+    angleEuropa += 1;
+    if(angleEuropa >= 360) angleEuropa =0;
+
+    angleSaturn +=0.1;
+    if (angleSaturn>=360) angleSaturn = 0;
+
+    angleUranus +=0.05;
+    if (angleUranus>=360) angleSaturn = 0;
+
+    angleNeptune +=0.025;
+    if (angleNeptune>=360) angleNeptune = 0;
 
     glutPostRedisplay();
     glutTimerFunc(33, TimerFunction, 1);
